@@ -2,19 +2,22 @@
  * App.jsx
  * -------
  * The root component of the Product Management application.
- *
+ 
  * Responsibilities:
  * 1. Maintain global UI state using useState:
  *    - products: Array of products retrieved from FastAPI backend.
  *    - isLoading: Loading indicator state while fetching products.
  *    - editingProduct: Product object being edited (or null).
  *    - notification: Success/error feedback messages for the user.
+ * 
  * 2. Fetch data from backend on initial mount using useEffect.
+ * 
  * 3. Communicate with FastAPI using the standard browser Fetch API:
  *    - GET /products         -> Fetch list of products
  *    - POST /products        -> Add a new product
  *    - PUT /products/{id}    -> Update existing product
  *    - DELETE /products/{id} -> Delete a product
+ * 
  * 4. Coordinate child components (ProductForm, ProductList).
  */
 
@@ -66,11 +69,12 @@ function App() {
       }
 
       // Step 3: Parse response JSON body
-      const data = await response.json();
+      const data = await response.json(); // This line converts the response body into JavaScript data.
 
       // Step 4: Update React state, which triggers a UI re-render
       setProducts(data);
-    } catch (err) {
+    } 
+    catch (err) {
       console.error('Error fetching products:', err);
       showNotification(
         `Unable to connect to backend: ${err.message}. Ensure FastAPI is running on port 8000.`,
@@ -83,8 +87,7 @@ function App() {
 
   // ============================================================================
   // 3. Lifecycle Hook (useEffect)
-  // The empty dependency array [] tells React to run this effect ONCE when
-  // the component first mounts on screen.
+  // The empty dependency array [] tells React to run this effect ONCE when the component first mounts on screen.
   // ============================================================================
   useEffect(() => {
     fetchProducts();
@@ -101,9 +104,18 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(productData),
+        body: JSON.stringify(productData), // converts a JavaScript object into a JSON string.
       });
+        /*
+          before =>
+           {
+            name: "Keyboard",
+            price: 799
+          }
 
+            After =>
+              "{\"name\":\"Keyboard\",\"price\":799}"
+         */
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.detail || `Server returned HTTP ${response.status}`);

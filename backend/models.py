@@ -1,7 +1,7 @@
 """
 models.py
 ---------
-Defines the SQLAlchemy ORM models (database tables) for the Product Management application.
+Defines the SQLAlchemy ORM models (database tables structure)
 
 What is an ORM (Object-Relational Mapping)?
 An ORM translates between Python classes/objects and relational database tables/rows.
@@ -13,19 +13,8 @@ from sqlalchemy import Column, Integer, String, Text, Numeric
 from database import Base
 
 
-class Product(Base):
-    """
-    Product Model representing the 'products' table in MySQL.
-    
-    Database Schema:
-    ----------------
-    - id: Primary key integer, automatically increments with each new record.
-    - name: String up to 255 characters, required (nullable=False), indexed for fast search.
-    - description: Variable-length text for longer product descriptions (optional).
-    - price: Precise numeric decimal with 10 total digits and 2 decimal places (e.g., 99.99).
-    - quantity: Integer representing items in stock, defaults to 0.
-    """
-    
+class Product(Base):    # Product Model representing the 'products' table in MySQL.
+
     # 1. Table name in MySQL database
     __tablename__ = "products"
 
@@ -54,7 +43,6 @@ class Product(Base):
     )
 
     # 5. Product price (DECIMAL(10, 2), cannot be NULL)
-    # Using Numeric(10, 2) is best practice for currency to prevent floating-point rounding errors.
     price = Column(
         Numeric(10, 2),
         nullable=False,
@@ -69,7 +57,12 @@ class Product(Base):
         doc="Units currently available in inventory"
     )
 
+    """
+    Important: 'models.py' describes the database table. It does not define the API request validation.
+    That is the responsibility of 'schemas.py'.
+    """
+
+    # Friendly string representation for debugging in console
     def __repr__(self) -> str:
-        """Friendly string representation for debugging in console."""
         return f"<Product(id={self.id}, name='{self.name}', price={self.price}, quantity={self.quantity})>"
 

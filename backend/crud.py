@@ -6,7 +6,7 @@ Contains reusable CRUD (Create, Read, Update, Delete) database functions.
 Why separate CRUD functions from API routes?
 --------------------------------------------
 1. Single Responsibility Principle: Routes in main.py handle HTTP requests and responses,
-   while crud.py handles interacting with the database.
+   while 'crud.py' handles interacting with the database.
 2. Reusability: These CRUD functions can be reused across different routes, background
    tasks, or test suites without duplicating SQL query logic.
 3. Testability: You can easily unit test database logic in isolation.
@@ -56,7 +56,7 @@ def create_product(db: Session, product: schemas.ProductCreate) -> models.Produc
 
     Step-by-step Explanation:
     1. Instantiate a new SQLAlchemy model object with data from the Pydantic schema:
-       product.model_dump() converts Pydantic fields into a Python dictionary.
+       product.model_dump() => converts Pydantic fields into a Python dictionary.
     2. db.add(db_product): Stages the new object in the current transaction.
     3. db.commit(): Sends the INSERT statement to MySQL and permanently commits the transaction.
     4. db.refresh(db_product): Reloads the object from MySQL to fetch database-generated
@@ -86,9 +86,7 @@ def create_product(db: Session, product: schemas.ProductCreate) -> models.Produc
     return db_product
 
 
-def update_product(
-    db: Session, product_id: int, product_update: schemas.ProductUpdate
-) -> Optional[models.Product]:
+def update_product(db: Session, product_id: int, product_update: schemas.ProductUpdate) -> Optional[models.Product]:
     """
     Update an existing product's fields in the database.
 

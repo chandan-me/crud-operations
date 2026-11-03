@@ -17,16 +17,15 @@ Why do we need Schemas in addition to ORM Models?
 from typing import Optional
 from pydantic import BaseModel, Field, ConfigDict
 
-
 # ==============================================================================
 # Base Schema (Shared attributes between Create, Update, and Response)
 # ==============================================================================
-class ProductBase(BaseModel):
+class ProductBase(BaseModel): # acts as a gatekepper for incoming & outgoing data
     """
     Common fields shared across Product schemas.
     """
     name: str = Field(
-        ...,
+        ..., # this filed is strictly required
         min_length=1,
         max_length=255,
         description="Name of the product (must not be empty)",
@@ -55,12 +54,12 @@ class ProductBase(BaseModel):
 # ==============================================================================
 # Create Schema (Used for POST /products requests)
 # ==============================================================================
-class ProductCreate(ProductBase):
-    """
+    """   
     Schema representing the incoming payload when creating a new product.
     Inherits name, description, price, and quantity from ProductBase.
     Does not require an 'id' because the database generates the id automatically.
     """
+class ProductCreate(ProductBase):
     pass
 
 
@@ -108,7 +107,7 @@ class ProductResponse(ProductBase):
     Includes the database-generated 'id' along with the product fields.
     """
     id: int = Field(..., description="Unique database identifier (Primary Key)")
-
-    # Pydantic V2 Configuration: from_attributes tells Pydantic to read data directly
-    # from SQLAlchemy ORM objects (e.g., product.name instead of product["name"]).
     model_config = ConfigDict(from_attributes=True)
+    # model_config => By default, Pydantic expects data in standard Python dictionary format (e.g., product["name"]). However, SQLAlchemy returns data as standard database object models (e.g., product.name).
+
+     # Pydantic V2 Configuration: from_attributes tells Pydantic to read data directly

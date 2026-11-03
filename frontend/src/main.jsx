@@ -2,9 +2,8 @@
  * main.jsx
  * --------
  * The JavaScript entry point of the React frontend application.
- *
- * It uses ReactDOM.createRoot to mount the root App component into
- * the HTML document's <div id="root"> element.
+ 
+ * It uses ReactDOM.createRoot to mount the root App component into the HTML document's <div id="root"> element.
  */
 
 import React from 'react';

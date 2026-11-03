@@ -34,8 +34,6 @@ app = FastAPI(
     title="Product Management System API",
     description="A beginner-friendly Monolithic REST API built with FastAPI, SQLAlchemy, and MySQL.",
     version="1.0.0",
-    docs_url="/docs",  # Interactive Swagger UI documentation URL
-    redoc_url="/redoc"  # Alternative API documentation URL
 )
 
 # ==============================================================================
@@ -52,9 +50,8 @@ except Exception as e:
 
 # ==============================================================================
 # 3. Configure CORS Middleware
-# Browsers block HTTP requests between different ports (e.g. React on 5173,
-# FastAPI on 8000) for security. CORS middleware explicitly authorizes the
-# React frontend to communicate with this backend.
+# Browsers block HTTP requests between different ports (e.g. React on 5173, FastAPI on 8000) for security. 
+# CORS middleware explicitly authorizes the React frontend to communicate with this backend.
 # ==============================================================================
 origins = [
     "http://localhost:5173",
